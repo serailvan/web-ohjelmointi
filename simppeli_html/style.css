@@ -1,0 +1,85 @@
+body {
+  background: #80c4b7;
+  color: #fff;
+  font-family: arial;
+  line-height: 1.4em;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+}
+
+.clr {
+  clear: both;
+}
+
+#container {
+  background: #e3856b;
+  width: 960px;
+  margin: 30px auto;
+  overflow: hidden;
+  padding: 10px;
+}
+
+#nav {
+  height: 40px;
+  background: #edcbd2;
+}
+
+#nav ul {
+  padding-top: 13px;
+  padding-left: 10px;
+}
+
+#nav li {
+  list-style: none;
+  float: left;
+  padding-right: 20px;
+}
+
+#nav .active {
+  text-decoration: underline;
+  color: #fff;
+}
+
+#main {
+  float: left;
+  width: 60%;
+}
+
+#sidebar {
+  float: right;
+  width: 30%;
+  background: #edcbd2;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+#footer {
+  text-align: center;
+  padding: 10px;
+  background: #edcbd2;
+  margin-top: 30px;
+}
+
+.opintojaksot li {
+  border-bottom: 2px;
+  padding-bottom: 20px;
+  margin-left: 20px;
+}
+.opintojaksot a {
+  background: #666;
+  padding: 10px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 15px;
+}
