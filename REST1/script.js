@@ -3,6 +3,21 @@ const fs = require("fs");
 const app = express();
 const PORT = 3000;
 
+// Tämä osuus lainattu tehtävän 4b:n tehtävänannosta.
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 // Tämän avulla luetaan JSON-tietoja pyynnöistä.
 app.use(express.json());
 
@@ -66,7 +81,7 @@ function tallennaSanakirja(sanakirja) {
   const data = Object.entries(sanakirja) // Muunnetaan sanakirjan sanaparit taulukoksi, jotka sisältävät suomen- ja englanninkielisen sanan.
     .map(([suomi, englanti]) => `${suomi} ${englanti}`) // Muutetaan taulukon sanaparit merkkijonoiksi, jossa ne erotaan välilyönnillä.
     .join("\n"); // Liitetään merkkijonot yhteen tavalla, että jokainen merkkijono on omalla rivillänsä.
-  fs.writeFileSync("sanakirja.txt");
+  fs.writeFileSync("sanakirja.txt", data);
 }
 
 // Aloitetaan HTTP-palvelin ja kuunnellaan sen pyyntöjä.

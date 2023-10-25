@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Maailman hienoin sanakirja</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Maailman hienoin sanakirja</h1>
+    <div id="menu">
+      <button id="lisaaButton">Lisää sanapari</button>
+      <button id="hakuButton">Hae sanapari</button>
+    </div>
+
+    <div id="lisaaSanakirja" style="display: none">
+      <h2>Lisää sana</h2>
+      <label>Suomi: <input type="text" id="suomiInput" /></label>
+      <label>Englanti: <input type="text" id="englantiInput" /></label>
+      <button id="lisaaSanapariButton">Lisää</button>
+      <div id="lisaysViesti"></div>
+    </div>
+
+    <div id="haeSanakirja" style="display: none">
+      <h2>Hae haluamasi suomenkielinen sana:</h2>
+      <label>Hakusana: <input type="text" id="hakuInput" /></label>
+      <button id="haeSanapariButton">Hae</button>
+      <div id="hakuTulos"></div>
+    </div>
+
+    <button id="takaisinButton" style="display: none">Takaisin</button>
+
+    <script>
+      // Selitettävät asiat alkavat tästä... Käytetään jQuerya taoahtumien käsittelyyn ja AJAX-pyyntöihin.
+      $(document).ready(function () {
+        // Ready -> suoritetaan JS vasta kuin sivu on latautunut
+
+        $("#lisaaButton").click(function () {
+          // klikkaus funktio antaa toiminnallisuutta napeille
+          // Lisää sanaparia nappia klikatessa, näytetään lisäys ikkuna ja hae sanakirja ikkuna pysyy piilossa.
+          $("#lisaaSanakirja").show();
+          $("#haeSanakirja").hide();
+          $("#takaisinButton").show();
+        });
+
+        // Samaa kuin ylempänä, mutta piilotellaan eri asoita jne.
+        $("#hakuButton").click(function () {
+          $("#lisaaSanakirja").hide();
+          $("#haeSanakirja").show();
+          $("#takaisinButton").show();
+        });
+
+        // Samaa...
+        $("#takaisinButton").click(function () {
+          $("#lisaaSanakirja").hide();
+          $("#haeSanakirja").hide();
+          $("#takaisinButton").hide();
+        });
+
+        // Klikkaus toiminnallisuus ...
+        $("#lisaaSanapariButton").click(function () {
+          const suomi = $("#suomiInput").val(); // ... joka lisäys napista painaessa hakee input kentistä sanat ja lähettää POST:lla eteenpäin.
+          const englanti = $("#englantiInput").val();
+
+          // Tässä AJAX POST-pyyntö.
+          $.ajax({
+            url: "http://localhost:3000/lisaa",
+            data: JSON.stringify({ suomi, englanti }),
+            contentType: "application/json",
+            success: function (data) {
+              $("#lisaysViesti").text(data.viesti);
+            },
+            error: function (xhr, status, error) {
+              $("#lisaysViesti").text("Virhe: " + error);
+            },
+          });
+        });
+
+        // Klikkaus toiminnallisuus...
+        $("#haeSanapariButton").click(function () {
+          const hakuSana = $("#hakuInput").val(); // ... joka lisäys napista painaessa hakee input kentästä sanan ja lähettää GET -pyynnön etiäpäi.
+
+          // Tässä AJAX GET-pyyntö.
+          $.ajax({
+            url: "http://localhost:3000/haku/" + hakuSana,
+            method: "GET",
+            success: function (data) {
+              $("#hakuTulos").text(
+                "Suomi: " + data.suomi + ", Englanti: " + data.englanti
+              );
+            },
+            error: function (xhr, status, error) {
+              $("#hakuTulos").text("Sanaa ei löytynyt.");
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -2,3 +2,4 @@ talo house
 auto car
 kissa cat
 heevoonen hoorse
+koira dog
